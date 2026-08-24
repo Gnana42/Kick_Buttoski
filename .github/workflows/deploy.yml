@@ -1,6 +1,5 @@
 name: Infra and Code Deploy
 on:
-    workflow_dipatch:
     push:
         branches:
             - main
