@@ -27,7 +27,7 @@ jobs:
                 dotnet-version: '10.0.x'
             - name: restore dependencies
               run: dotnet restore
-            - name: Build & Publish Application
+            - name: Build & Publish Applications
               run: dotnet publish Kick_Buttoski.csproj -c Release -o publish
             - name: Deploy to Azure Webapp
               uses: azure/webapps-deploy@v2
