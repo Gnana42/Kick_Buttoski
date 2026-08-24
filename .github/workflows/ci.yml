@@ -1,0 +1,17 @@
+name: CI Build DotNet Application
+on:
+    workflow_dispatch:
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v6
+            - name: Setup Dotnet
+              uses: actions/setup-dotnet@v6
+              with:
+                dotnet-version: '10.0.x'
+            - name: restore dependencies
+              run: dotnet restore
+            - name: Build Application
+              run: dotnet build --no-restore
