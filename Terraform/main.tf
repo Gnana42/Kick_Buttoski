@@ -22,7 +22,7 @@ resource "azurerm_service_plan" "ASP" {
   resource_group_name = azurerm_resource_group.RG.name
   location            = azurerm_resource_group.RG.location
   os_type             = "Windows"
-  sku_name            = "F1"
+  sku_name            = "B1"
 }
 
 resource "azurerm_windows_web_app" "WebApp" {
