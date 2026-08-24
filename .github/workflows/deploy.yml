@@ -1,0 +1,37 @@
+name: Infra and Code Deploy
+on:
+    workflow_dipatch:
+    push:
+        branches:
+            - main
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Code Checkout
+              uses: actions/checkout@v6
+            - name: Azure Login
+              uses: azure/login@v1
+              with:
+                creds: ${{ secrets.GH_ACTIONS_AZURE_SECRET }}
+            - name: Terraform Setup
+              uses: hashicorp/setup-terraform@v3
+            - name: Terraform Initialization
+              working-directory: Terraform
+              run: terraform init
+            - name: Terraform Build
+              working-directory: Terraform
+              run: terraform apply --auto-approve
+            - name: Setup Dotnet
+              uses: actions/setup-dotnet@v6
+              with:
+                dotnet-version: '10.0.x'
+            - name: restore dependencies
+              run: dotnet restore
+            - name: Build & Publish Application
+              run: dotnet publish Kick_Buttoski.csproj -c Release -o publish
+            - name: Deploy to Azure Webapp
+              uses: azure/webapps-deploy@v2
+              with:
+                app-name: ghaspkickbuttoski
+                package: publish           
